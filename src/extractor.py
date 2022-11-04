@@ -13,11 +13,6 @@ def extractImages(folderPath):
         img = cv2.imread(filePath, cv2.IMREAD_GRAYSCALE)
         img = cv2.resize(img,(256,256),interpolation = cv2.INTER_AREA)
         images_train.append(img)
-
-    # # image to numpy array
-    # images_arr = []
-    # for x in range(len(images_train)):
-    #     images_arr.append(np.array(images_train[x]))
     return images_train
 
     
