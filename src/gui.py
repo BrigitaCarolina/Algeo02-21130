@@ -57,7 +57,10 @@ test_image.place(x=0, y=75)
 execution = Label(frame2, text="Execution Time : ",bg="#DFF2FF", fg="#3E6287", font=("Calibri",16,"bold"))
 execution.place(x=0, y=500)
 time = Label(frame2, text="00:00:00", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
-
+imgholder = ImageTk.PhotoImage(Image.open("image holder.jpg").resize((256, 256), Image.ANTIALIAS))
+displayimgholder = Label(frame2, image=imgholder)
+displayimgholder.photo = imgholder
+displayimgholder.place(x=0,y=200)
 # creating frame to display the test image 
 # frame1 = Frame(window, width=256, height=256).grid(row=2, column=2)
 # frame2 = Frame(window, width=256, height=256).grid(row=2, column=3)
@@ -69,4 +72,8 @@ frame3 = Frame(relief = RAISED,
 frame3.pack(side=LEFT,fill=BOTH) 
 closet_result = Label(frame3, text="Closest Result", bg="#DFF2FF",fg="#3E6287", font=("Calibri",16,"bold"))
 closet_result.place(x=0, y=75)
+imgholder1 = ImageTk.PhotoImage(Image.open("image holder.jpg").resize((256, 256), Image.ANTIALIAS))
+displayimgholder1 = Label(frame3, image=imgholder1)
+displayimgholder1.photo = imgholder1
+displayimgholder1.place(x=0,y=200)
 window.mainloop()
