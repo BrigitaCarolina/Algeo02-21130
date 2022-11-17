@@ -1,22 +1,41 @@
 from tkinter import *
 from tkinter import filedialog
 from PIL import ImageTk, Image
+import cv2
 # choose file button 
 def upload_Action(): 
-    filename1 = filedialog.askopenfilename()
-    printfilename = Label(text=filename1).grid(row=2, column=1)
+    filename1 = filedialog.askdirectory()
+    printfilename = Label(frame1, text=filename1[:30] + "...", font=("Calibri", 12), bg="#DFF2FF").place(x=240, y=210)
 
 def upload_Action1():
-    filename2 = filedialog.askopenfilename()
-    printfilename = Label(frame1, text=filename2, font=("Calibri", 12), bg="#DFF2FF").place(x=200, y=300)
+    filename2 = filedialog.askopenfilename(title="Select File", filetypes=(("jpeg files", "*.jpg"),("all files", "*.*")))
+    printfilename1 = Label(frame1, text=filename2[:30] + "...", font=("Calibri", 12), bg="#DFF2FF").place(x=220, y=310)
     img = ImageTk.PhotoImage(Image.open(filename2).resize((256, 256), Image.ANTIALIAS))
     displayimg = Label(frame2, image=img)
     displayimg.photo = img
-    displayimg.place(x=0,y=200)
+    displayimg.place(x=0,y=150)
+
+# def show_frames():
+#     cap = cv2.VideoCapture(0)
+#     while(True): 
+#         cv2image = cv2.cvtColor(cap.read()[1], cv2.COLOR_BGR2RGB)
+#         cv2.imshow("frame2", cv2image)
+#         if cv2.waitKey(1) & 0xFF == ord('q'):
+#             break
+#     cap.release()
+#     cv2.destroyAllWindows()
+    # img = Image.fromarray(cv2image)
+    # imgTk = ImageTk.PhotoImage(image=img.resize((256, 256), Image.ANTIALIAS))
+    # display = Label(frame2, image=imgTk)
+    # display.photo = imgTk
+    # display.place(x=0,y=150)
+    # global imgTk
+
+    # display.after(10, show_frames) 
 
 window = Tk()
 window.title("Face Recognition App")
-window.geometry("2000x1000")
+window.geometry("2000x1010")
 # window.columnconfigure(0, minsize=800, weight=1)
 frame = Frame(relief = RAISED,
                height=100,
@@ -35,13 +54,13 @@ dataset.place(x=100, y=150)
 button = Button(frame1, text= "Choose Folder", fg="#47B8D3", command=upload_Action, font="Calibri")
 button.place(x=100, y=200)
 nofile1 = Label(frame1, text="No Folder Chosen", bg="#DFF2FF", font=("Calibri",12))
-nofile1.place(x=210, y=200)
+nofile1.place(x=240, y=210)
 image = Label(frame1, text="Insert Your Image", bg="#DFF2FF",fg="#3E6287", font=("Calibri",16,"bold"))
 image.place(x=100, y=250)   
 button1 = Button(frame1, text= "Choose File", fg="#47B8D3", command=upload_Action1, font="Calibri")
 button1.place(x=100, y=300)
 nofile = Label(frame1, text="No File Chosen", bg="#DFF2FF", font=("Calibri",12))
-nofile.place(x=200, y=300)
+nofile.place(x=220, y=310)
 result = Label(frame1, text="Result :", bg="#DFF2FF", fg="#3E6287", font=("Calibri",16,"bold"))
 result.place(x=100, y=450)
 none = Label(frame1, text="  None", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=100, y=500)
@@ -60,7 +79,8 @@ time = Label(frame2, text="00:00:00", fg="#98FB98", bg="#DFF2FF", font=("Calibri
 imgholder = ImageTk.PhotoImage(Image.open("image holder.jpg").resize((256, 256), Image.ANTIALIAS))
 displayimgholder = Label(frame2, image=imgholder)
 displayimgholder.photo = imgholder
-displayimgholder.place(x=0,y=200)
+displayimgholder.place(x=0,y=150)
+bttn_capture = Button(frame2, text="Capture", font=("Calibri",16), fg="white", bg="#47B8D3", command=show_frames).place(x=0,y=450)
 # creating frame to display the test image 
 # frame1 = Frame(window, width=256, height=256).grid(row=2, column=2)
 # frame2 = Frame(window, width=256, height=256).grid(row=2, column=3)
@@ -75,5 +95,5 @@ closet_result.place(x=0, y=75)
 imgholder1 = ImageTk.PhotoImage(Image.open("image holder.jpg").resize((256, 256), Image.ANTIALIAS))
 displayimgholder1 = Label(frame3, image=imgholder1)
 displayimgholder1.photo = imgholder1
-displayimgholder1.place(x=0,y=200)
+displayimgholder1.place(x=0,y=150)
 window.mainloop()
