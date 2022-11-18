@@ -1,49 +1,108 @@
 import numpy as np
 
-mat = [[[2,0,1],[1,2,1],[0,2,4]],
-[[1,0,2],[0,1,1],[1,2,2]],
-[[1,2,3],[2,4,3],[1,2,3]]]
-print(mat)
+# mat = [[[2,0,1],[1,2,1],[0,2,4]],
+# [[1,0,2],[0,1,1],[1,2,2]],
+# [[1,2,3],[2,4,3],[1,2,3]]]
+# print(mat)
 
-# mean training image
-def mean(training_image):
-    return np.mean(training_image, axis=0)
+def Flatten(m):
+# mengubah himpunan face vector dgn size M x N x N menjadi M x N^2
+    return np.reshape(m,(len(m),len(m[0])*len(m[0])),order='F')
 
-# average = mean(mat)
-# print(average)
+def Unflatten(m):
+# mengubah himpunan face vector dgn size M x 256^2 menjadi M x N x N
+    return np.reshape(m,(-1,256,256),order='F')
 
-# selisih training image dengan mean
-def Selisih(average,training_image):
+
+def Average(m):
+# mengembalikan average dari face vector
+    return np.mean(m, axis=0)
+
+def Selisih(avg,m):
+# mengurangi setiap face vector dengan average
     selisih = []
-    for i in range(len(training_image)):
-        # selisih.append(np.absolute(np.subtract(training_image[i],average)))
-        selisih.append(np.subtract(training_image[i],average))
-    row = len(selisih[0])*len(selisih[0][0])
-    col = len(selisih)
-    selisih = np.reshape(selisih,(col,row))
-    selisih = np.transpose(selisih)
+    for i in range(len(m)):
+        selisih.append(np.subtract(m[i],avg))
     return selisih
 
-# selisih = Selisih(average,mat)
-# print(selisih)
-
-# matrix covarian
 def Covarian(selisih):
-    Aa = selisih
-    At = np.transpose(selisih)
-    # return np.matmul(At,Aa)
+# mengembalikan matrix covarian (M x M)
+    At = selisih # ukuran M x N^2
+    Aa = np.transpose(selisih) # ukuran N^2 x M
     return np.divide(np.matmul(At,Aa),len(selisih))
 
-# covarian = Covarian(selisih)
-# print(covarian)
+def EigenvectorAtA(m):
+# mengembalikan eigen vector dari matrix m
+    (eigenvalue,eigenvector) = np.linalg.eig(m)
 
-def Eigenfaces(imgArr):
-    average = mean(imgArr)
-    selisih = Selisih(average,imgArr)
+    # idx = eigenvalue.argsort()[::-1]
+    # eigenvalue = eigenvalue[idx]
+    # eigenvector=eigenvector[:,idx]
+
+    return eigenvector
+
+def EigenvectorAAt(eigenvectorAtA,selisih):
+# mengengubah eigenvector At x A menjadi eigenvector A x At
+    return np.transpose(np.matmul(np.transpose(selisih),np.transpose(eigenvectorAtA)))
+
+def normalizeEigenVector(eigenvector):
+# mengembalikan eigenvector yang telah di normalize
+    normalize = []
+    for i in range(len(eigenvector)):
+        normalize.append(eigenvector[i]/np.linalg.norm(eigenvector[i]))
+    return normalize
+
+def Weight(eigenvector,selisih):
+# mengembalikan bobot eigenvector setiap faces vector   
+    weight = []
+    temp = []
+    for i in range(len(selisih)):
+        temp = []
+        for j in range(len(eigenvector)):
+            temp.append(np.matmul(eigenvector[j],np.transpose(selisih[i])))
+        weight.append(temp)
+    return weight
+
+def Reconstruct(avg,eigenvector,weight):
+# mengembalikan img yang telah di rekonstruksi
+    reconstruct = []
+    for i in range(len(weight)):
+        x = np.sum([avg,np.matmul(np.transpose(eigenvector),np.transpose(weight[i]))],axis=0)
+        reconstruct.append(x)
+    return reconstruct
+
+def Test_Image(test_img,avg,eigenvector):
+    test_img = Flatten(test_img)
+    selisih = Selisih(avg,test_img)
+    weight = Weight(eigenvector,selisih)
+    return weight
+
+def euclideanDistance(omega_t,omega_d):
+    ed = []
+    for i in range(len(omega_d)):
+        temp = np.subtract(omega_t[0],omega_d[i])
+        sum_sq = np.dot(np.transpose(temp),temp)
+        ed.append(np.sqrt(sum_sq))
+    print(ed)
+    index_min = np.argmin(ed)
+    print(index_min)
+    return index_min
+
+def Eigenfaces(m,test_image):
+    m = Flatten(m)
+    average = Average(m)
+    selisih = Selisih(average,m)
     covarian = Covarian(selisih)
-    covarian = np.int_(covarian)
-    print(covarian)
-    (eigenvalue,eigenvector) = np.linalg.eig(covarian)
-    eigenface = np.matmul(eigenvector,np.transpose(selisih))
-    eigenface = np.reshape(eigenface,(-1,256,256))
-    return eigenface
+
+    eigenvector = (EigenvectorAtA(covarian))
+    eigenvector = EigenvectorAAt(eigenvector,selisih)
+    eigenvector = normalizeEigenVector(eigenvector)
+    # eigenvector = eigenvector[:len(eigenvector)//2]
+
+    omega_d = Weight(eigenvector,selisih)
+    omega_t = Test_Image(test_image,average,eigenvector)
+    id = euclideanDistance(omega_t,omega_d)
+
+    img = Unflatten(m)[id]
+
+    return img
