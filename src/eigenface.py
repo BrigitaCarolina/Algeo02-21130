@@ -1,4 +1,6 @@
 import numpy as np
+import eigen
+import time
 
 # mat = [[[2,0,1],[1,2,1],[0,2,4]],
 # [[1,0,2],[0,1,1],[1,2,2]],
@@ -83,26 +85,33 @@ def euclideanDistance(omega_t,omega_d):
         temp = np.subtract(omega_t[0],omega_d[i])
         sum_sq = np.dot(np.transpose(temp),temp)
         ed.append(np.sqrt(sum_sq))
-    print(ed)
+    # print(ed)
     index_min = np.argmin(ed)
-    print(index_min)
+    # print(index_min)
     return index_min
 
 def Eigenfaces(m,test_image):
+    start = time.time()
     m = Flatten(m)
     average = Average(m)
     selisih = Selisih(average,m)
     covarian = Covarian(selisih)
 
-    eigenvector = (EigenvectorAtA(covarian))
+    # eigenvector = (EigenvectorAtA(covarian))
+    # eigenvector = EigenvectorAAt(eigenvector,selisih)
+    # eigenvector = normalizeEigenVector(eigenvector)
+    # eigenvector = eigenvector[:len(eigenvector)//2]
+
+    [eigenvalue,eigenvector] = eigen.eigenalgorithm(covarian)
+    eigenvector = normalizeEigenVector(eigenvector)
     eigenvector = EigenvectorAAt(eigenvector,selisih)
     eigenvector = normalizeEigenVector(eigenvector)
-    # eigenvector = eigenvector[:len(eigenvector)//2]
 
     omega_d = Weight(eigenvector,selisih)
     omega_t = Test_Image(test_image,average,eigenvector)
     id = euclideanDistance(omega_t,omega_d)
-
+    end = time.time()
+    execution_time = end-start
     img = Unflatten(m)[id]
 
-    return img
+    return (img,execution_time)

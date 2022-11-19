@@ -176,12 +176,12 @@ def eigenalgorithm(matrix):
         
     return [E,v]
 
-def eigenvectors(matrix):
-    saved = eigenalgorithm(matrix)
+# def eigenvectors(matrix):
+#     saved = eigenalgorithm(matrix)
 
-    return saved[1]
+#     return saved[1]
 
-def eigenvalues(matrix):
-    saved = eigenalgorithm(matrix)
+# def eigenvalues(matrix):
+#     saved = eigenalgorithm(matrix)
 
-    return saved[0]
+#     return saved[0]
