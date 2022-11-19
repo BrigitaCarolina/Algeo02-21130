@@ -67,6 +67,12 @@ def qr(matrix):
 
     return decom
 
+def splsolver(matrix):
+    if np.det(matrix) != 0 :
+        0
+    else :
+        0
+
 def segitigaatas_checker(matrix):
     isTrue = True
 
@@ -146,7 +152,7 @@ def diagonal(matrix):
     return diagonals
 
 
-def eigenvalue(matrix):
+def eigenalgorithm(matrix):
     f = len(matrix)
     H = heissenberg(matrix)
     E = diagonal(H)
@@ -160,19 +166,22 @@ def eigenvalue(matrix):
         r = qrmat[1]
         H = np.matmul(r, q)
         E = diagonal(H)
-    
+
     v = []
     for i in range(f):
-        temp = E[i]*np.array(I)
-        temph = np.array(matrix) - temp
-        parameters = []
+        add = []
         for j in range(f):
-            parameters.append(-temph[j][f-1])
-            np.delete(temph[j],f-1,0)
-        np.delete(temph,f-1,0)
-        v.append(np.linalg.solve(temph,parameters))
-        
+            add.append(Q[j][i])
+        v.append(add)
         
     return [E,v]
 
-print(eigenvalue(mat2))
+def eigenvectors(matrix):
+    saved = eigenalgorithm(matrix)
+
+    return saved[1]
+
+def eigenvalues(matrix):
+    saved = eigenalgorithm(matrix)
+
+    return saved[0]
