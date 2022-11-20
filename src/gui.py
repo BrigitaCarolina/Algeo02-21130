@@ -1,20 +1,68 @@
 from tkinter import *
 from tkinter import filedialog
 from PIL import ImageTk, Image
+from extractor import *
+from eigen import *
+from eigenface import *
 import cv2
+import os 
 # choose file button 
+
+def load_images_from_folder(folder):
+    images = []
+    for filename in os.listdir(folder):
+        images.append(os.path.join(folder,filename))
+        print(images[0])
+    return images
+
 def upload_Action(): 
+    global filename1
     filename1 = filedialog.askdirectory()
     printfilename = Label(frame1, text=filename1[:30] + "...", font=("Calibri", 12), bg="#DFF2FF").place(x=240, y=210)
 
 def upload_Action1():
-    filename2 = filedialog.askopenfilename(title="Select File", filetypes=(("jpeg files", "*.jpg"),("all files", "*.*")))
+    global filename2
+    filename2 = filedialog.askdirectory()
+    images = load_images_from_folder(filename2)
+    # filename2 = filedialog.askopenfilename(title="Select File", filetypes=(("jpeg files", "*.jpg"),("all files", "*.*")))
     printfilename1 = Label(frame1, text=filename2[:30] + "...", font=("Calibri", 12), bg="#DFF2FF").place(x=220, y=310)
-    img = ImageTk.PhotoImage(Image.open(filename2).resize((256, 256), Image.ANTIALIAS))
+    img = ImageTk.PhotoImage(Image.open(images[0]).resize((256, 256), Image.ANTIALIAS))
     displayimg = Label(frame2, image=img)
     displayimg.photo = img
     displayimg.place(x=0,y=150)
 
+def calculate():
+    # dir = os.chdir(os.path.pardir)
+    print(os.getcwd())
+    outputPath = os.path.join(os.getcwd() + "\\test\\output\\output.jpg")
+    print(outputPath)
+    image_arr = extractImages(filename1)
+    test_face = extractImages(filename2)
+    eigenface, execution_time = Eigenfaces(image_arr, test_face)
+    cv2.imwrite(outputPath,np.int_(eigenface))
+    img = ImageTk.PhotoImage(Image.open(outputPath).resize((256, 256), Image.ANTIALIAS))
+    displayimg = Label(frame3, image=img)
+    displayimg.photo = img
+    displayimg.place(x=0,y=150)
+    displayTime = Label(frame2, text=str(execution_time), fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
+
+def clear():
+    parrent_path = os.path.dirname(os.getcwd())
+    imageholderpath = os.path.join(os.getcwd()+ "\\img\\image holder.jpg")
+    print(imageholderpath) 
+    imgholder = ImageTk.PhotoImage(Image.open(imageholderpath).resize((256, 256), Image.ANTIALIAS))
+    displayimgholder = Label(frame2, image=imgholder)
+    displayimgholder.photo = imgholder
+    displayimgholder.place(x=0,y=150)
+    imgholder1 = ImageTk.PhotoImage(Image.open(imageholderpath).resize((256, 256), Image.ANTIALIAS))
+    displayimgholder1 = Label(frame3, image=imgholder1)
+    displayimgholder1.photo = imgholder1
+    displayimgholder1.place(x=0,y=150)
+    nofile1 = Label(frame1, text="No Folder Chosen", bg="#DFF2FF", font=("Calibri",12))
+    nofile1.place(x=240, y=210)
+    nofile = Label(frame1, text="No File Chosen", bg="#DFF2FF", font=("Calibri",12))
+    nofile.place(x=220, y=310)
+    executionTime = Label(frame2, text="00:00:00", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
 # def show_frames():
 #     cap = cv2.VideoCapture(0)
 #     while(True): 
@@ -45,6 +93,9 @@ greeting = Label(frame, text="Face Recognition",fg="#47B8D3",bg="#DFF2FF", font=
 greeting.place(x=600, y=50)
 # greeting.grid(row=0)
 # column 0  
+parrent_path = os.path.dirname(os.getcwd())
+os.chdir(parrent_path)
+imageholderpath = os.path.join(os.getcwd() + "\\img\\image holder.jpg")
 frame1 = Frame(relief = RAISED,
                width=525,
                bg="#DFF2FF")
@@ -64,7 +115,7 @@ nofile.place(x=220, y=310)
 result = Label(frame1, text="Result :", bg="#DFF2FF", fg="#3E6287", font=("Calibri",16,"bold"))
 result.place(x=100, y=450)
 none = Label(frame1, text="  None", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=100, y=500)
-bttn_calculate = Button(frame1, text="CALCULATE", font=("Calibri",16), fg="white", bg="#47B8D3").place(x=100,y=350)
+bttn_calculate = Button(frame1, text="CALCULATE", font=("Calibri",16), fg="white", bg="#47B8D3", command=calculate).place(x=100,y=350)
 
 # column 1
 frame2 = Frame(relief = RAISED,
@@ -75,12 +126,12 @@ test_image = Label(frame2, text="Test image",bg="#DFF2FF",fg="#3E6287", font=("C
 test_image.place(x=0, y=75)
 execution = Label(frame2, text="Execution Time : ",bg="#DFF2FF", fg="#3E6287", font=("Calibri",16,"bold"))
 execution.place(x=0, y=500)
-time = Label(frame2, text="00:00:00", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
-imgholder = ImageTk.PhotoImage(Image.open("image holder.jpg").resize((256, 256), Image.ANTIALIAS))
+executionTime = Label(frame2, text="00:00:00", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
+imgholder = ImageTk.PhotoImage(Image.open(imageholderpath).resize((256, 256), Image.ANTIALIAS))
 displayimgholder = Label(frame2, image=imgholder)
 displayimgholder.photo = imgholder
 displayimgholder.place(x=0,y=150)
-bttn_capture = Button(frame2, text="Capture", font=("Calibri",16), fg="white", bg="#47B8D3", command=show_frames).place(x=0,y=450)
+bttn_capture = Button(frame2, text="Capture", font=("Calibri",16), fg="white", bg="#47B8D3").place(x=0,y=450)
 # creating frame to display the test image 
 # frame1 = Frame(window, width=256, height=256).grid(row=2, column=2)
 # frame2 = Frame(window, width=256, height=256).grid(row=2, column=3)
@@ -92,8 +143,9 @@ frame3 = Frame(relief = RAISED,
 frame3.pack(side=LEFT,fill=BOTH) 
 closet_result = Label(frame3, text="Closest Result", bg="#DFF2FF",fg="#3E6287", font=("Calibri",16,"bold"))
 closet_result.place(x=0, y=75)
-imgholder1 = ImageTk.PhotoImage(Image.open("image holder.jpg").resize((256, 256), Image.ANTIALIAS))
+imgholder1 = ImageTk.PhotoImage(Image.open(imageholderpath).resize((256, 256), Image.ANTIALIAS))
 displayimgholder1 = Label(frame3, image=imgholder1)
 displayimgholder1.photo = imgholder1
 displayimgholder1.place(x=0,y=150)
+bttn_clear = Button(frame3, text="Clear Result", font=("Calibri",16), fg="white", bg="#47B8D3", command=clear).place(x=0,y=450)
 window.mainloop()
