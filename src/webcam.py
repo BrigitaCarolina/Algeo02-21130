@@ -2,6 +2,8 @@ import cv2
 import os
 from matplotlib import pyplot as plt
 from time import time
+import eigenface
+import extractor
 
 def fromwebcam():
     ret = False
@@ -14,14 +16,18 @@ def fromwebcam():
         i += 1
     
     plt.imshow(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-    cv2.imwrite(os.path.join('../ALGEO02-21130/test/input','input.jpg'), frame)
+    cv2.imwrite(os.path.join('../ALGEO02-21130/test/dataset','input.jpg'), frame)
     photo.release()
-
-    # CROP
-    precrop = cv2.imread('input.jpg')
 
 
 def videowebcam():
+    datasetPath = os.getcwd() + "/test/dataset"
+    inputPath = os.getcwd() + "/test/input"
+
+    listPath = os.listdir(inputPath)
+    for i in range(len(listPath)) :
+        os.remove(os.path.join(inputPath,listPath[i]))
+
     ret = False
     i = 0
     while not ret :
@@ -30,6 +36,7 @@ def videowebcam():
         i += 1
 
     prevtime = time()
+    timeout = time() + 60*5
 
     while photo.isOpened():
         photo.set(cv2.CAP_PROP_FRAME_WIDTH, 256)
@@ -40,24 +47,24 @@ def videowebcam():
         currenttime = time()
 
         if currenttime - prevtime >= 10.0 :
-            #proses imagenya ada yg sama atau engga
-
-            #simpen benter
             cv2.imwrite(os.path.join('../ALGEO02-21130/test/input','input.jpg'), frame)
-            prevtime = currenttime
+            
+            images_arr = extractor.extractImages(datasetPath)
+            test_face = extractor.extractImages(inputPath)
+            eigenfaces,execution_time,isfounded = eigenface.Eigenfaces(images_arr,test_face)
+            print(isfounded)
 
-            #if x :
-                #kasih notif telah ditemukan orang yang mirip
-                #balik ke laman gui
-                #break
-            #else :
-                #kasih notif buat benerin posisi biar bisa ke capt dengan benar
+            if isfounded :
+                break
+            else :
+                prevtime = currenttime
 
-        if cv2.waitKey(1) & 0xFF == ord(' '):
+        if cv2.waitKey(1) & 0xFF == ord(' ') or currenttime > timeout:
             break
     
-    photo.relese()
+    photo.release()
     cv2.destroyAllWindows()
 
-# videowebcam()
+#fromwebcam()
+#videowebcam()
     

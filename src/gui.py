@@ -49,7 +49,8 @@ def calculate():
         displayimg.place(x=0,y=150)
         displayTime = Label(frame2, text=str(execution_time), fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
     else:
-        anonymouspath = os.path.join(os.getcwd() + "/img/anonymous.jpg")
+        #anonymouspath = os.path.join(os.getcwd() + "/img/anonymous.jpg")
+        anonymouspath = os.path.join(os.getcwd() + "/ALGEO02-21130/img/anonymous.jpg")
         img = ImageTk.PhotoImage(Image.open(anonymouspath).resize((256, 256), Image.ANTIALIAS))
         displayimg = Label(frame3, image=img)
         displayimg.photo = img
