@@ -51,7 +51,8 @@ def normalizeEigenVector(eigenvector):
 # mengembalikan eigenvector yang telah di normalize
     normalize = []
     for i in range(len(eigenvector)):
-        normalize.append(eigenvector[i]/np.linalg.norm(eigenvector[i]))
+        # normalize.append(eigenvector[i]/np.linalg.norm(eigenvector[i]))
+        normalize.append(eigenvector[i]/eigen.magnitude(eigenvector[i]))
     return normalize
 
 def Weight(eigenvector,selisih):
@@ -85,10 +86,7 @@ def euclideanDistance(omega_t,omega_d):
         temp = np.subtract(omega_t[0],omega_d[i])
         sum_sq = np.dot(np.transpose(temp),temp)
         ed.append(np.sqrt(sum_sq))
-    # print(ed)
-    index_min = np.argmin(ed)
-    # print(index_min)
-    return index_min
+    return ed
 
 def Eigenfaces(m,test_image):
     start = time.time()
@@ -107,11 +105,13 @@ def Eigenfaces(m,test_image):
     eigenvector = EigenvectorAAt(eigenvector,selisih)
     eigenvector = normalizeEigenVector(eigenvector)
 
+
     omega_d = Weight(eigenvector,selisih)
     omega_t = Test_Image(test_image,average,eigenvector)
-    id = euclideanDistance(omega_t,omega_d)
+    ed = euclideanDistance(omega_t,omega_d)
+    id = np.argmin(ed)
     end = time.time()
     execution_time = end-start
     img = Unflatten(m)[id]
 
-    return (img,execution_time)
+    return (img,execution_time,ed[id]<=10000)
