@@ -58,6 +58,12 @@ def clear():
     displayimgholder1 = Label(frame3, image=imgholder1)
     displayimgholder1.photo = imgholder1
     displayimgholder1.place(x=0,y=150)
+    blank = Label(frame1, text=("L" * 50), fg="#DFF2FF" , bg="#DFF2FF", font=("Calibri",12))
+    blank.place(x=240, y=210)
+    blank1 = Label(frame1, text=("L" * 50), fg="#DFF2FF" , bg="#DFF2FF", font=("Calibri",12))
+    blank1.place(x=220, y=310)
+    blank1 = Label(frame2, text=("L" * 50), fg="#DFF2FF" , bg="#DFF2FF", font=("Calibri",12))
+    blank1.place(x=150, y=500)
     nofile1 = Label(frame1, text="No Folder Chosen", bg="#DFF2FF", font=("Calibri",12))
     nofile1.place(x=240, y=210)
     nofile = Label(frame1, text="No File Chosen", bg="#DFF2FF", font=("Calibri",12))
