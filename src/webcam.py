@@ -59,5 +59,5 @@ def videowebcam():
     photo.relese()
     cv2.destroyAllWindows()
 
-videowebcam()
+# videowebcam()
     
