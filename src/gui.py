@@ -6,6 +6,7 @@ from eigen import *
 from eigenface import *
 import cv2
 import os 
+from webcam import *
 # choose file button 
 
 def load_images_from_folder(folder):
@@ -34,21 +35,32 @@ def upload_Action1():
 def calculate():
     # dir = os.chdir(os.path.pardir)
     print(os.getcwd())
-    outputPath = os.path.join(os.getcwd() + "/ALGEO02-21130/test/output/output.jpg")
+    # outputPath = os.path.join(os.getcwd() + "/ALGEO02-21130/test/output/output.jpg")
+    outputPath = os.path.join(os.getcwd() + "/test/output/output.jpg")
     print(outputPath)
     image_arr = extractImages(filename1)
     test_face = extractImages(filename2)
-    eigenface, execution_time = Eigenfaces(image_arr, test_face)
+    eigenface, execution_time, flag = Eigenfaces(image_arr, test_face)
     cv2.imwrite(outputPath,np.int_(eigenface))
-    img = ImageTk.PhotoImage(Image.open(outputPath).resize((256, 256), Image.ANTIALIAS))
-    displayimg = Label(frame3, image=img)
-    displayimg.photo = img
-    displayimg.place(x=0,y=150)
-    displayTime = Label(frame2, text=str(execution_time), fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
+    if flag: 
+        img = ImageTk.PhotoImage(Image.open(outputPath).resize((256, 256), Image.ANTIALIAS))
+        displayimg = Label(frame3, image=img)
+        displayimg.photo = img
+        displayimg.place(x=0,y=150)
+        displayTime = Label(frame2, text=str(execution_time), fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
+    else:
+        anonymouspath = os.path.join(os.getcwd() + "/img/anonymous.jpg")
+        img = ImageTk.PhotoImage(Image.open(anonymouspath).resize((256, 256), Image.ANTIALIAS))
+        displayimg = Label(frame3, image=img)
+        displayimg.photo = img
+        displayimg.place(x=0,y=150)   
+        fail = Label(frame1, text="  Couldn't find matching image!", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16, "bold")).place(x=100, y=500)
+
 
 def clear():
     parrent_path = os.path.dirname(os.getcwd())
-    imageholderpath = os.path.join(os.getcwd()+ "/ALGEO02-21130/img/image holder.jpg")
+    imageholderpath = os.path.join(os.getcwd()+ "/img/image holder.jpg")
+    # imageholderpath = os.path.join(os.getcwd()+ "/ALGEO02-21130/img/image holder.jpg")
     print(imageholderpath) 
     imgholder = ImageTk.PhotoImage(Image.open(imageholderpath).resize((256, 256), Image.ANTIALIAS))
     displayimgholder = Label(frame2, image=imgholder)
@@ -69,39 +81,25 @@ def clear():
     nofile = Label(frame1, text="No File Chosen", bg="#DFF2FF", font=("Calibri",12))
     nofile.place(x=220, y=310)
     executionTime = Label(frame2, text="00:00:00", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
-# def show_frames():
-#     cap = cv2.VideoCapture(0)
-#     while(True): 
-#         cv2image = cv2.cvtColor(cap.read()[1], cv2.COLOR_BGR2RGB)
-#         cv2.imshow("frame2", cv2image)
-#         if cv2.waitKey(1) & 0xFF == ord('q'):
-#             break
-#     cap.release()
-#     cv2.destroyAllWindows()
-    # img = Image.fromarray(cv2image)
-    # imgTk = ImageTk.PhotoImage(image=img.resize((256, 256), Image.ANTIALIAS))
-    # display = Label(frame2, image=imgTk)
-    # display.photo = imgTk
-    # display.place(x=0,y=150)
-    # global imgTk
-
-    # display.after(10, show_frames) 
-
+    blank2 = Label(frame1, text=("L" * 50), fg="#DFF2FF" , bg="#DFF2FF", font=("Calibri",12))
+    blank2.place(x=100, y=500)
+    none = Label(frame1, text="  None", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=100, y=500)
+# main screen 
 window = Tk()
 window.title("Face Recognition App")
 window.geometry("2000x1010")
-# window.columnconfigure(0, minsize=800, weight=1)
 frame = Frame(relief = RAISED,
                height=100,
                bg="#DFF2FF")
 frame.pack(fill=X)
 greeting = Label(frame, text="Face Recognition",fg="#47B8D3",bg="#DFF2FF", font=("Calibri",30,"bold"))
 greeting.place(x=600, y=50)
-# greeting.grid(row=0)
+
 # column 0  
 parrent_path = os.path.dirname(os.getcwd())
 os.chdir(parrent_path)
-imageholderpath = os.path.join(os.getcwd() + "/ALGEO02-21130/img/image holder.jpg")
+# imageholderpath = os.path.join(os.getcwd() + "/ALGEO02-21130/img/image holder.jpg")
+imageholderpath = os.path.join(os.getcwd() + "/img/image holder.jpg")
 frame1 = Frame(relief = RAISED,
                width=525,
                bg="#DFF2FF")
@@ -137,7 +135,7 @@ imgholder = ImageTk.PhotoImage(Image.open(imageholderpath).resize((256, 256), Im
 displayimgholder = Label(frame2, image=imgholder)
 displayimgholder.photo = imgholder
 displayimgholder.place(x=0,y=150)
-bttn_capture = Button(frame2, text="Capture", font=("Calibri",16), fg="white", bg="#47B8D3").place(x=0,y=450)
+bttn_capture = Button(frame2, text="Use Webcam", font=("Calibri",16), fg="white", bg="#47B8D3", command=videowebcam).place(x=0,y=450)
 # creating frame to display the test image 
 # frame1 = Frame(window, width=256, height=256).grid(row=2, column=2)
 # frame2 = Frame(window, width=256, height=256).grid(row=2, column=3)
