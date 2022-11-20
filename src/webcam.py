@@ -43,7 +43,8 @@ def videowebcam():
             #proses imagenya ada yg sama atau engga
 
             #simpen benter
-            print('cie')
+            cv2.imwrite(os.path.join('../ALGEO02-21130/test/input','input.jpg'), frame)
+            prevtime = currenttime
 
             #if x :
                 #kasih notif telah ditemukan orang yang mirip
