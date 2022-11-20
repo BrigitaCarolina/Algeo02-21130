@@ -33,7 +33,6 @@ eigenfaces,execution_time = eigenface.Eigenfaces(images_arr,test_face)
 #     string = "image"+str(i)+".jpg"
 #     cv2.imwrite(string,np.int_(eigenface[i]))
 
-
 cv2.imwrite(os.path.join(outputPath , 'output.jpg'),np.int_(eigenfaces))
 print(execution_time)
 # cv2.imwrite("/test/output/image.jpg",np.int_(eigenfaces))
