@@ -158,14 +158,23 @@ def eigenalgorithm(matrix):
     E = diagonal(H)
     I = identitymaker(f)
     Q = I
+    Diff = 1
+    OldDiff = 2
+    DiffofDiff = 1
 
-    while segitigaatas_checker(H) == False :
+    while segitigaatas_checker(H) == False and round(DiffofDiff,1) < 0 :
+        OldDiff = Diff
+        OldEVal = E
         qrmat = qr(H)
         q = qrmat[0]
         Q = np.matmul(q,Q)
         r = qrmat[1]
         H = np.matmul(r, q)
         E = diagonal(H)
+        Diff = magnitude(np.array(E)-np.array(OldEVal))
+        DiffofDiff = OldDiff-Diff
+        #print(DiffofDiff)
+        
 
     v = []
     for i in range(f):

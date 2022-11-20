@@ -35,8 +35,8 @@ def upload_Action1():
 def calculate():
     # dir = os.chdir(os.path.pardir)
     print(os.getcwd())
-    # outputPath = os.path.join(os.getcwd() + "/ALGEO02-21130/test/output/output.jpg")
-    outputPath = os.path.join(os.getcwd() + "/test/output/output.jpg")
+    outputPath = os.path.join(os.getcwd() + "/ALGEO02-21130/test/output/output.jpg")
+    #outputPath = os.path.join(os.getcwd() + "/test/output/output.jpg")
     print(outputPath)
     image_arr = extractImages(filename1)
     test_face = extractImages(filename2)
@@ -59,8 +59,8 @@ def calculate():
 
 def clear():
     parrent_path = os.path.dirname(os.getcwd())
-    imageholderpath = os.path.join(os.getcwd()+ "/img/image holder.jpg")
-    # imageholderpath = os.path.join(os.getcwd()+ "/ALGEO02-21130/img/image holder.jpg")
+    #imageholderpath = os.path.join(os.getcwd()+ "/img/image holder.jpg")
+    imageholderpath = os.path.join(os.getcwd()+ "/ALGEO02-21130/img/image holder.jpg")
     print(imageholderpath) 
     imgholder = ImageTk.PhotoImage(Image.open(imageholderpath).resize((256, 256), Image.ANTIALIAS))
     displayimgholder = Label(frame2, image=imgholder)
@@ -98,8 +98,8 @@ greeting.place(x=600, y=50)
 # column 0  
 parrent_path = os.path.dirname(os.getcwd())
 os.chdir(parrent_path)
-# imageholderpath = os.path.join(os.getcwd() + "/ALGEO02-21130/img/image holder.jpg")
-imageholderpath = os.path.join(os.getcwd() + "/img/image holder.jpg")
+imageholderpath = os.path.join(os.getcwd() + "/ALGEO02-21130/img/image holder.jpg")
+#imageholderpath = os.path.join(os.getcwd() + "/img/image holder.jpg")
 frame1 = Frame(relief = RAISED,
                width=525,
                bg="#DFF2FF")
