@@ -6,9 +6,9 @@ import extractor
 import eigenface
 
 
-datasetPath = os.getcwd() + "\\test\\dataset"
-inputPath = os.getcwd() + "\\test\\input"
-outputPath = os.getcwd() + "\\test\\output"
+datasetPath = os.getcwd() + "/test/dataset"
+inputPath = os.getcwd() + "/test/input"
+outputPath = os.getcwd() + "/test/output"
 # print(datasetPath)
 
 # Extract all dataset to image_train
