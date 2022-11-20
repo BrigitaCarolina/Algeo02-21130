@@ -27,12 +27,14 @@ test_face = extractor.extractImages(inputPath)
 # cv2.waitKey()
 
 
-eigenfaces,execution_time = eigenface.Eigenfaces(images_arr,test_face)
+eigenfaces,execution_time,bool = eigenface.Eigenfaces(images_arr,test_face)
 
-# for i in range(len(eigenface)):
+# for i in range(len(eigenfaces)):
 #     string = "image"+str(i)+".jpg"
-#     cv2.imwrite(string,np.int_(eigenface[i]))
+#     cv2.imwrite(string,np.int_(eigenfaces[i]))
 
 cv2.imwrite(os.path.join(outputPath , 'output.jpg'),np.int_(eigenfaces))
-print(execution_time)
+# print(execution_time)
 # cv2.imwrite("/test/output/image.jpg",np.int_(eigenfaces))
+
+print(bool)
