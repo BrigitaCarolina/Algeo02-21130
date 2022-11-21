@@ -22,7 +22,7 @@ Program face recognition ini menggunakan metode eigenface dalam proses mengenali
 6. Setelah proses result yang diinginkan tampil, user dapat menggunakan program kembali dengan menekan tombol clear result
 
 # Fitur Tambahan 
-1. Terdapat tombol use webcam jika user menggunakan webcam dan data masukan test image langsung dari webcam 
+1. Terdapat tombol use webcam jika user ingin menggunakan webcam untuk data masukan test image langsung dari webcam 
 2. Setelah menekan tombol, program akan men-capture foto sekali untuk dimasukkan ke dataset
 3. Kemudian program akan menjalankan webcam, menunggu 10 detik dan men-capture foto live dari webcam setiap 10 detik sekali 
 4. Webcam kemudian akan berhenti 
