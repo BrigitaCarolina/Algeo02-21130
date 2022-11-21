@@ -73,6 +73,6 @@ def videowebcam():
     photo.release()
     cv2.destroyAllWindows()
 
-def startwebcam():
-    fromwebcam()
-    videowebcam()
+# def startwebcam():
+#     fromwebcam()
+#     videowebcam()

@@ -113,5 +113,5 @@ def Eigenfaces(m,test_image):
     end = time.time()
     execution_time = end-start
     img = Unflatten(m)[id]
-
-    return (img,execution_time,ed[id]<=10000)
+    print("ed", ed[id])
+    return (img,execution_time,ed[id]<=20000)
