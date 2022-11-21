@@ -50,6 +50,7 @@ def calculate():
         displayimg.photo = img
         displayimg.place(x=0,y=150)
         displayTime = Label(frame2, text=str(execution_time), fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
+        success = Label(frame1, text="  Matching image is found", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16, "bold")).place(x=100, y=500)
     else:
         temp_path = os.path.join(os.getcwd() + "/img/anonymous.jpg")
         if os.path.isfile(temp_path):
