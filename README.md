@@ -1,2 +1,2 @@
 # Algeo02-21130
-Tugas Besar Aljabar Linier dan Geometri Kelompok "Tatata"
+Tugas Besar 2 Aljabar Linier dan Geometri Kelompok "Tatata"
