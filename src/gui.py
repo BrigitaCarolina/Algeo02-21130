@@ -91,7 +91,7 @@ def clear():
     nofile = Label(frame1, text="No File Chosen", bg="#DFF2FF", font=("Calibri",12))
     nofile.place(x=220, y=310)
     executionTime = Label(frame2, text="00:00:00", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
-    blank2 = Label(frame1, text=("L" * 50), fg="#DFF2FF" , bg="#DFF2FF", font=("Calibri",12))
+    blank2 = Label(frame1, text=("L" * 50), fg="#DFF2FF" , bg="#DFF2FF", font=("Calibri",13))
     blank2.place(x=100, y=500)
     none = Label(frame1, text="  None", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=100, y=500)
 # main screen 
@@ -148,7 +148,7 @@ imgholder = ImageTk.PhotoImage(Image.open(imageholderpath).resize((256, 256), Im
 displayimgholder = Label(frame2, image=imgholder)
 displayimgholder.photo = imgholder
 displayimgholder.place(x=0,y=150)
-bttn_capture = Button(frame2, text="Use Webcam", font=("Calibri",16), fg="white", bg="#47B8D3", command=startwebcam).place(x=0,y=450)
+bttn_capture = Button(frame2, text="Use Webcam", font=("Calibri",16), fg="white", bg="#47B8D3", command=videowebcam).place(x=0,y=450)
 # creating frame to display the test image 
 # frame1 = Frame(window, width=256, height=256).grid(row=2, column=2)
 # frame2 = Frame(window, width=256, height=256).grid(row=2, column=3)
