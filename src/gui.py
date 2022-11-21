@@ -112,7 +112,7 @@ temp_path = os.path.join(os.getcwd() + "/img/image holder.jpg")
 if os.path.isfile(temp_path):
     imageholderpath = temp_path
 else:
-    imageholderpath = os.path.join(os.getcwd() + "/img/image holder.jpg") 
+    imageholderpath = os.path.join(os.getcwd() + "/ALGEO02-21130/img/image holder.jpg") 
 frame1 = Frame(relief = RAISED,
                width=525,
                bg="#DFF2FF")
