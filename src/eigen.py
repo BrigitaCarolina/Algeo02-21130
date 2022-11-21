@@ -132,7 +132,7 @@ def givenrotation(m, i, j):
     
     return rotation
 
-def heissenberg(matrix):
+def hessenberg(matrix):
     sizei = len(matrix)
     for i in [1, (sizei-2)] :
         for j in [i+1, (sizei-1)] :
@@ -154,7 +154,7 @@ def diagonal(matrix):
 
 def eigenalgorithm(matrix):
     f = len(matrix)
-    H = heissenberg(matrix)
+    H = hessenberg(matrix)
     E = diagonal(H)
     I = identitymaker(f)
     Q = I
