@@ -17,13 +17,21 @@ def fromwebcam():
     
     plt.imshow(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
     cv2.imwrite(os.path.join('../ALGEO02-21130/test/dataset','input.jpg'), frame)
+    print(os.path.join('../ALGEO02-21130/test/dataset','input.jpg'))
     photo.release()
 
 
 def videowebcam():
-    datasetPath = os.getcwd() + "/test/dataset"
-    inputPath = os.getcwd() + "/test/input"
-
+    temp_datasetPath = os.getcwd() + "/test/dataset"
+    if os.path.exists(temp_datasetPath):
+        datasetPath = temp_datasetPath
+    else:
+        datasetPath = os.path.join(os.getcwd(), "/ALGEO02-21130/test/dataset")
+    temp_inputPath = os.getcwd() + "/test/input"
+    if os.path.exists(temp_inputPath):
+        inputPath = temp_inputPath
+    else:
+        inputPath = os.path.join(os.getcwd(), "/ALGEO02-21130/test/input")
     listPath = os.listdir(inputPath)
     for i in range(len(listPath)) :
         os.remove(os.path.join(inputPath,listPath[i]))
@@ -65,6 +73,6 @@ def videowebcam():
     photo.release()
     cv2.destroyAllWindows()
 
-#fromwebcam()
-#videowebcam()
-    
+def startwebcam():
+    fromwebcam()
+    videowebcam()

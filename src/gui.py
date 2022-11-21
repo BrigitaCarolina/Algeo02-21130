@@ -33,15 +33,17 @@ def upload_Action1():
     displayimg.place(x=0,y=150)
 
 def calculate():
-    # dir = os.chdir(os.path.pardir)
-    print(os.getcwd())
-    outputPath = os.path.join(os.getcwd() + "/ALGEO02-21130/test/output/output.jpg")
-    #outputPath = os.path.join(os.getcwd() + "/test/output/output.jpg")
+    temp_path = os.path.join(os.getcwd() + "/test/output/output.jpg")
+    if os.path.isfile(temp_path):
+        outputPath = temp_path
+    else:
+        outputPath = os.path.join(os.getcwd() + "/ALGEO02-21130/test/output/output.jpg")
     print(outputPath)
     image_arr = extractImages(filename1)
     test_face = extractImages(filename2)
     eigenface, execution_time, flag = Eigenfaces(image_arr, test_face)
     cv2.imwrite(outputPath,np.int_(eigenface))
+    print(flag)
     if flag: 
         img = ImageTk.PhotoImage(Image.open(outputPath).resize((256, 256), Image.ANTIALIAS))
         displayimg = Label(frame3, image=img)
@@ -49,19 +51,25 @@ def calculate():
         displayimg.place(x=0,y=150)
         displayTime = Label(frame2, text=str(execution_time), fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
     else:
-        #anonymouspath = os.path.join(os.getcwd() + "/img/anonymous.jpg")
-        anonymouspath = os.path.join(os.getcwd() + "/ALGEO02-21130/img/anonymous.jpg")
+        temp_path = os.path.join(os.getcwd() + "/img/anonymous.jpg")
+        if os.path.isfile(temp_path):
+            anonymouspath = temp_path
+        else:
+            anonymouspath = os.path.join(os.getcwd() + "/ALGEO02-21130/img/anonymous.jpg")
         img = ImageTk.PhotoImage(Image.open(anonymouspath).resize((256, 256), Image.ANTIALIAS))
         displayimg = Label(frame3, image=img)
         displayimg.photo = img
         displayimg.place(x=0,y=150)   
+        displayTime = Label(frame2, text=str(execution_time), fg="#98FB98", bg="#DFF2FF", font=("Calibri",16)).place(x=150, y=500)
         fail = Label(frame1, text="  Couldn't find matching image!", fg="#98FB98", bg="#DFF2FF", font=("Calibri",16, "bold")).place(x=100, y=500)
 
 
 def clear():
-    parrent_path = os.path.dirname(os.getcwd())
-    #imageholderpath = os.path.join(os.getcwd()+ "/img/image holder.jpg")
-    imageholderpath = os.path.join(os.getcwd()+ "/ALGEO02-21130/img/image holder.jpg")
+    temp_path = os.path.join(os.getcwd()+ "/img/image holder.jpg")
+    if os.path.isfile(temp_path):
+        imageholderpath = temp_path
+    else:
+        imageholderpath = os.path.join(os.getcwd()+ "/ALGEO02-21130/img/image holder.jpg")
     print(imageholderpath) 
     imgholder = ImageTk.PhotoImage(Image.open(imageholderpath).resize((256, 256), Image.ANTIALIAS))
     displayimgholder = Label(frame2, image=imgholder)
@@ -99,8 +107,11 @@ greeting.place(x=600, y=50)
 # column 0  
 parrent_path = os.path.dirname(os.getcwd())
 os.chdir(parrent_path)
-imageholderpath = os.path.join(os.getcwd() + "/ALGEO02-21130/img/image holder.jpg")
-#imageholderpath = os.path.join(os.getcwd() + "/img/image holder.jpg")
+temp_path = os.path.join(os.getcwd() + "/img/image holder.jpg")
+if os.path.isfile(temp_path):
+    imageholderpath = temp_path
+else:
+    imageholderpath = os.path.join(os.getcwd() + "/img/image holder.jpg") 
 frame1 = Frame(relief = RAISED,
                width=525,
                bg="#DFF2FF")
@@ -136,7 +147,7 @@ imgholder = ImageTk.PhotoImage(Image.open(imageholderpath).resize((256, 256), Im
 displayimgholder = Label(frame2, image=imgholder)
 displayimgholder.photo = imgholder
 displayimgholder.place(x=0,y=150)
-bttn_capture = Button(frame2, text="Use Webcam", font=("Calibri",16), fg="white", bg="#47B8D3", command=videowebcam).place(x=0,y=450)
+bttn_capture = Button(frame2, text="Use Webcam", font=("Calibri",16), fg="white", bg="#47B8D3", command=startwebcam).place(x=0,y=450)
 # creating frame to display the test image 
 # frame1 = Frame(window, width=256, height=256).grid(row=2, column=2)
 # frame2 = Frame(window, width=256, height=256).grid(row=2, column=3)
