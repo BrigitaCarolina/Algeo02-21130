@@ -26,12 +26,12 @@ def videowebcam():
     if os.path.exists(temp_datasetPath):
         datasetPath = temp_datasetPath
     else:
-        datasetPath = os.path.join(os.getcwd(), "/ALGEO02-21130/test/dataset")
+        datasetPath = os.getcwd() + "/ALGEO02-21130/test/dataset"
     temp_inputPath = os.getcwd() + "/test/input"
     if os.path.exists(temp_inputPath):
         inputPath = temp_inputPath
     else:
-        inputPath = os.path.join(os.getcwd(), "/ALGEO02-21130/test/input")
+        inputPath = os.getcwd() + "/ALGEO02-21130/test/input"
     listPath = os.listdir(inputPath)
     for i in range(len(listPath)) :
         os.remove(os.path.join(inputPath,listPath[i]))

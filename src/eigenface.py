@@ -9,7 +9,7 @@ import time
 
 def Flatten(m):
 # mengubah himpunan face vector dgn size M x N x N menjadi M x N^2
-    return np.reshape(m,(len(m),len(m[0])*len(m[0])),order='F')
+    a = np.reshape(m,(len(m),len(m[0])*len(m[0])),order='F')
 
 def Unflatten(m):
 # mengubah himpunan face vector dgn size M x 256^2 menjadi M x N x N
