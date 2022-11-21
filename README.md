@@ -14,7 +14,7 @@ Program ini dibuat dengan menggunakan bahasa pemrograman python dengan library-l
 Program face recognition ini menggunakan metode eigenface dalam proses mengenali sekumpulan citra wajah yang kemudian di-extract dan direpresentasikan dalam bentuk matriks eigenface. Citra wajah yang akan di-extract oleh program di antaranya adalah citra wajah pada dataset dan citra wajah dari data masukan user (dalam program ini bisa juga menerima input data citra wajah dari webcam). Kemudian setelah dataset dan test image direpresentasikan dalam bentuk matriks eigenface, dicari euclidian distance paling kecil antara image-image pada dataset dengan test image, yang selanjutnya image yang memiliki euclidian distance paling kecil tersebut adalah image yang dianggap program paling menyerupai test image.
 
 # Langkah Menggunakan Program
-1. Jalankan file gui.py pada terminal yang sudah terinstall python versi 3 
+1. Jalankan file gui.py pada terminal yang sudah terinstall python versi 3 atau langsung klik dua kali pada file Face Recognition App.exe 
 2. Tekan tombol choose folder untuk memilih folder dataset 
 3. Tekan tombol choose file untuk memilih file input 
 4. Tekan tombol calculate untuk menjalankan program
